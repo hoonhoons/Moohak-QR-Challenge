@@ -7,7 +7,7 @@ QR코드를 찍으면 이 웹 서버 링크와 연결된다.
 한 QR코드는 딱 두번까지만 이미지를 보여준다.
 """
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 this_app = Flask(__name__)
 
@@ -21,17 +21,26 @@ def index():
     
 @this_app.route('/qr')
 def qr():
-    num = request.args.get('num')
-    if not (num >= 0 and num < NUM_MAX):
-        return "Num is out of range"
+    try:
+        num = int(request.args.get('num'))
+        if not (num >= 0 and num < NUM_MAX):
+            return "Num is out of range"
+        if nums[num] >= 3:
+            return render_template('done.html')
+    except Exception as e:
+        print(e)
+        return "Error"
+        
     nums[num] += 1
     
-    return render_template('image.html', num = num)
+    return render_template('image.html', num = num, count = nums[num])
 
 @this_app.route('/status')
+def status():
     return str(nums)
 
 @this_app.route('/init')
+def init():
     return "Successfully init!\n" + str(nums)
     
 if __name__ == '__main__':
