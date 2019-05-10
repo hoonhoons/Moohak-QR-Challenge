@@ -17,8 +17,8 @@ nums = [0] * NUM_MAX
 @this_app.route('/')
 @this_app.route('/index')
 def index():
-	return "박성훈의 flask 서버"
-	
+    return "박성훈의 flask 서버"
+    
 @this_app.route('/qr')
 def qr():
     num = request.args.get('num')
@@ -26,13 +26,13 @@ def qr():
         return "Num is out of range"
     nums[num] += 1
     
-	return render_template('image.html', num = num)
+    return render_template('image.html', num = num)
 
 @this_app.route('/status')
     return str(nums)
 
 @this_app.route('/init')
     return "Successfully init!\n" + str(nums)
-	
+    
 if __name__ == '__main__':
-	this_app.run(debug=True, host='0.0.0.0', port=5002, threaded=True)
+    this_app.run(debug=True, host='0.0.0.0', port=5002, threaded=True)
