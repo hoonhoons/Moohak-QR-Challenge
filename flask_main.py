@@ -30,17 +30,22 @@ def qr():
     except Exception as e:
         print(e)
         return "Error"
-        
-    nums[num] += 1
+    
+    if str(request.environ['REMOTE_ADDR']).find("110.93.146") == -1:
+        nums[num] += 1
     
     return render_template('image.html', num = num, count = nums[num])
 
 @this_app.route('/status')
 def status():
+    #print(request.environ['REMOTE_ADDR'])
+    #print(str(request.environ['REMOTE_ADDR']).find("110.93.146"))
     return str(nums)
 
 @this_app.route('/init')
 def init():
+    global nums
+    nums = [0] * NUM_MAX
     return "Successfully init!\n" + str(nums)
     
 if __name__ == '__main__':
